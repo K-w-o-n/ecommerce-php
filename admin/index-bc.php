@@ -92,10 +92,10 @@ if ($_SESSION['role'] != 1) {
                         <span>Dashboard</span>
                     </a>
                     <a href="user_list.php" class="list-group-item">
-                        <span>Categories</span>
+                        <span>Users</span>
                     </a>
                     <a href="index.php" class="list-group-item">
-                        <span>Products</span>
+                        <span>Blogs</span>
                     </a>
                 </div>
             </nav>

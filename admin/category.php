@@ -12,51 +12,51 @@ if ($_SESSION['role'] != 1) {
 }
 
 
-// if (!empty($_POST['search'])) {
-//     setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
-// } else {
-//     if (empty($_GET['pageno'])) {
-//         unset($_COOKIE['search']);
-//         setcookie('search', null, -1, '/');
-//     }
-// }
+if (!empty($_POST['search'])) {
+    setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
+} else {
+    if (empty($_GET['pageno'])) {
+        unset($_COOKIE['search']);
+        setcookie('search', null, '-1', '/');
+    }
+}
 
-// if (!empty($_GET['pageno'])) {
-//     $pageno = $_GET['pageno'];
-// } else {
-//     $pageno = 1;
-// }
+if (!empty($_GET['pageno'])) {
+    $pageno = $_GET['pageno'];
+} else {
+    $pageno = 1;
+}
 
-// $numOfrecs = 3;
-// $offset = ($pageno - 1) * $numOfrecs;
+$numOfrecs = 3;
+$offset = ($pageno - 1) * $numOfrecs;
 
-// if (empty($_POST['search']) && empty($_COOKIE['search'])) {
+if (empty($_POST['search']) && empty($_COOKIE['search'])) {
 
-//     $stmt = $db->prepare("SELECT * FROM articles ORDER BY id DESC");
-//     $stmt->execute();
-//     $rawResult = $stmt->fetchAll();
+    $stmt = $db->prepare("SELECT * FROM categories ORDER BY id DESC");
+    $stmt->execute();
+    $rawResult = $stmt->fetchAll();
 
-//     $total_pages = ceil(count($rawResult) / $numOfrecs);
+    $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-//     $stmt = $db->prepare("SELECT * FROM articles ORDER BY id DESC LIMIT $offset,$numOfrecs");
-//     $stmt->execute();
-//     $result = $stmt->fetchAll();
-// } else {
-//     if (!empty($_POST['search'])) {
-//         $searchKey = $_POST['search'];
-//     } else {
-//         $searchKey = $_COOKIE['search'];
-//     }
-//     $stmt = $db->prepare("SELECT * FROM articles WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
-//     $stmt->execute();
-//     $rawResult = $stmt->fetchAll();
+    $stmt = $db->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+} else {
+    if (!empty($_POST['search'])) {
+        $searchKey = $_POST['search'];
+    } else {
+        $searchKey = $_COOKIE['search'];
+    }
+    $stmt = $db->prepare("SELECT * FROM categories WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
+    $stmt->execute();
+    $rawResult = $stmt->fetchAll();
 
-//     $total_pages = ceil(count($rawResult) / $numOfrecs);
+    $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-//     $stmt = $db->prepare("SELECT * FROM articles WHERE title LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
-//     $stmt->execute();
-//     $result = $stmt->fetchAll();
-// }
+    $stmt = $db->prepare("SELECT * FROM categories WHERE name LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+}
 
 
 
@@ -70,8 +70,8 @@ if ($_SESSION['role'] != 1) {
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="../js/bootstrap.bundle.min.js" defer></script>
+    <title>Ecommerce</title>
 
-    <title>Blog</title>
 
 </head>
 
@@ -79,7 +79,7 @@ if ($_SESSION['role'] != 1) {
     <div class="container-fluid p-5">
         <div class="row bg-primary p-3 text-white">
             <div class="d-flex justify-content-between">
-                <h4>Kwon blogs</h4>
+                <h4>Ecommerce</h4>
                 <div>
                     <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                 </div>
@@ -91,7 +91,7 @@ if ($_SESSION['role'] != 1) {
                     <a href="dashboard.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
-                    <a href="user_list.php" class="list-group-item">
+                    <a href="category.php" class="list-group-item">
                         <span>Categories</span>
                     </a>
                     <a href="index.php" class="list-group-item">
@@ -103,8 +103,8 @@ if ($_SESSION['role'] != 1) {
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
-                            <h4 class="me-2">Blogs</h4>
-                            <a href="add.php" type="button" class="btn bg-white">Create new Blog</a>
+                            <h4 class="me-2">Ecommerce</h4>
+                            <a href="cat_add.php" type="button" class="btn bg-white">Create new category</a>
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex " action="index.php" method="post">
@@ -118,9 +118,8 @@ if ($_SESSION['role'] != 1) {
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">Title</th>
+                                <th scope="col">name</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Photo</th>
                                 <th>Actions</th>
                                 <th scope="col">Created_at</th>
                             </tr>
@@ -134,15 +133,12 @@ if ($_SESSION['role'] != 1) {
                                 <tbody>
                                     <tr>
                                         <td><?php echo $i ?></td>
-                                        <td><?php echo encap($value['title']) ?></td>
+                                        <td><?php echo encap($value['name']) ?></td>
                                         <td><?php echo encap(substr($value['description'], 0, 10)) ?></td>
                                         <td>
-                                            <img class="img-fluid pad" src="images/<?php echo $value['photo'] ?>" style="height: 150px !important;">
-                                        </td>
-                                        <td>
                                             <div>
-                                                <a href="edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
-                                                <a href="delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
+                                                <a href="cat_edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
+                                                <a href="cat_delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
                                             </div>
                                         </td>
                                         <td><?php echo $value['created_at'] ?></td>
@@ -185,6 +181,8 @@ if ($_SESSION['role'] != 1) {
                             </ul>
                         </nav>
                     </div>
+
+
                 </div>
 
 
