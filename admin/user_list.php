@@ -1,7 +1,7 @@
 <?php
 session_start();
-require('../Database/MySQL.php');
-require('../Database/encap.php');
+require('Database/MySQL.php');
+require('Database/encap.php');
 
 if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
     header('location: index.php');
@@ -75,9 +75,9 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/bootstrap.bundle.min.js" defer></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/bootstrap.bundle.min.js" defer></script>
 
     <title>Blog</title>
 
@@ -87,7 +87,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
     <div class="container-fluid p-5">
         <div class="row bg-primary p-3 text-white">
             <div class="d-flex justify-content-between">
-                <h4>Kwon blogs</h4>
+                <h4>Ecommerce</h4>
                 <div>
                     <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                 </div>
@@ -112,11 +112,11 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
                             <h4 class="me-2">Users</h4>
-                            <a href="users/user_add.php" type="button" class="btn bg-white">Create new user</a>
+                            <a href="user_add.php" type="button" class="btn bg-white">Create new user</a>
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex " action="user_list.php" method="post">
-                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+                                <input name="_token" type="hidden" value="">
                                 <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                                 <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
                             </form>
@@ -128,6 +128,8 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                                 <th scope="col">id</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
                                 <th scope="col">Password</th>
                                 <th scope="col">Role</th>
                                 <th>Actions</th>
@@ -145,6 +147,8 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                                         <td><?php echo $i ?></td>
                                         <td><?php echo $value['name'] ?></td>
                                         <td><?php echo $value['email'] ?></td>
+                                        <td><?php echo $value['phone'] ?></td>
+                                        <td><?php echo $value['address'] ?></td>
                                         <td>
                                             <?php echo $value['password'] ?>
                                         </td>

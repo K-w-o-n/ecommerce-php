@@ -107,8 +107,8 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                             <a href="cat_add.php" type="button" class="btn bg-white">Create new category</a>
                         </div>
                         <div class="d-none d-lg-block">
-                            <form class="form-inline my-lg-0 d-flex " action="index.php" method="post">
-                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+                            <form class="form-inline my-lg-0 d-flex" action="category.php" method="post">
+                                <input name="_token" type="hidden" value="">
                                 <input class="form-control mr-sm-2 me-2" type="search" name="search">
                                 <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
                             </form>
