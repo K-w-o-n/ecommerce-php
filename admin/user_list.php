@@ -103,7 +103,10 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                         <span>Users</span>
                     </a>
                     <a href="index.php" class="list-group-item">
-                        <span>Blogs</span>
+                        <span>Products</span>
+                    </a>
+                    <a href="category.php" class="list-group-item">
+                        <span>Categories</span>
                     </a>
                 </div>
             </nav>
@@ -112,7 +115,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
                             <h4 class="me-2">Users</h4>
-                            <a href="user_add.php" type="button" class="btn bg-white">Create new user</a>
+                            <a href="user_add.php" type="button" class="btn btn-success">Create new user</a>
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex " action="user_list.php" method="post">
@@ -155,8 +158,8 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                                         <td><?php echo $value['role'] ?></td>
                                         <td>
                                             <div>
-                                                <a href="users/users_edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
-                                                <a href="users/users_delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
+                                                <a href="user_edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
+                                                <a href="user_delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
                                             </div>
                                         </td>
 

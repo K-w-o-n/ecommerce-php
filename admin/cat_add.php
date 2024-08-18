@@ -65,7 +65,7 @@ if($_POST) {
 <body>
     <div class="container-fluid p-5">
         <div class="row bg-primary p-3 text-white">
-            <h4>Kwon blogs</h4>
+            <h4>Ecommerce</h4>
         </div>
         <div class="row gap-0 ">
             <nav class="col-2 bg-light pe-3" style="background: #0083aa;padding:0px;">
@@ -78,6 +78,9 @@ if($_POST) {
                     </a>
                     <a href="index.php" class="list-group-item">
                         <span>Category</span>
+                    </a>
+                    <a href="user_list.php" class="list-group-item">
+                        <span>Users</span>
                     </a>
                 </div>
             </nav>

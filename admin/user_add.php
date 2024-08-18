@@ -4,9 +4,9 @@ session_start();
 require('Database/MySQL.php');
 require('Database/encap.php');
 
-if (empty($_SESSION['userid']) || empty($_SESSION['login']) || $_SESSION['role'] != 1) {
-    header("Locatio: /admin/login.php");
-}
+// if (empty($_SESSION['userid']) || empty($_SESSION['login']) || $_SESSION['role'] != 1) {
+//     header("Location: login.php");
+// }
 
 if ($_POST) {
     if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['password']) || strlen($_POST['password'] < 4)) {
@@ -105,7 +105,9 @@ if ($_POST) {
                     <a href="index.php" class="list-group-item">
                         <span>Category</span>
                     </a>
-
+                    <a href="user_list.php" class="list-group-item">
+                        <span>Users</span>
+                    </a>
                 </div>
             </nav>
             <main class="col-10 bg-light p-3">

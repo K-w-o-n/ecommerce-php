@@ -12,51 +12,51 @@ if ($_SESSION['role'] != 1) {
 }
 
 
-// if (!empty($_POST['search'])) {
-//     setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
-// } else {
-//     if (empty($_GET['pageno'])) {
-//         unset($_COOKIE['search']);
-//         setcookie('search', null, -1, '/');
-//     }
-// }
+if (!empty($_POST['search'])) {
+    setcookie('search', $_POST['search'], time() + (86400 * 30), "/");
+} else {
+    if (empty($_GET['pageno'])) {
+        unset($_COOKIE['search']);
+        setcookie('search', null, -1, '/');
+    }
+}
 
-// if (!empty($_GET['pageno'])) {
-//     $pageno = $_GET['pageno'];
-// } else {
-//     $pageno = 1;
-// }
+if (!empty($_GET['pageno'])) {
+    $pageno = $_GET['pageno'];
+} else {
+    $pageno = 1;
+}
 
-// $numOfrecs = 3;
-// $offset = ($pageno - 1) * $numOfrecs;
+$numOfrecs = 3;
+$offset = ($pageno - 1) * $numOfrecs;
 
-// if (empty($_POST['search']) && empty($_COOKIE['search'])) {
+if (empty($_POST['search']) && empty($_COOKIE['search'])) {
 
-//     $stmt = $db->prepare("SELECT * FROM articles ORDER BY id DESC");
-//     $stmt->execute();
-//     $rawResult = $stmt->fetchAll();
+    $stmt = $db->prepare("SELECT * FROM products ORDER BY id DESC");
+    $stmt->execute();
+    $rawResult = $stmt->fetchAll();
 
-//     $total_pages = ceil(count($rawResult) / $numOfrecs);
+    $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-//     $stmt = $db->prepare("SELECT * FROM articles ORDER BY id DESC LIMIT $offset,$numOfrecs");
-//     $stmt->execute();
-//     $result = $stmt->fetchAll();
-// } else {
-//     if (!empty($_POST['search'])) {
-//         $searchKey = $_POST['search'];
-//     } else {
-//         $searchKey = $_COOKIE['search'];
-//     }
-//     $stmt = $db->prepare("SELECT * FROM articles WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
-//     $stmt->execute();
-//     $rawResult = $stmt->fetchAll();
+    $stmt = $db->prepare("SELECT * FROM products ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+} else {
+    if (!empty($_POST['search'])) {
+        $searchKey = $_POST['search'];
+    } else {
+        $searchKey = $_COOKIE['search'];
+    }
+    $stmt = $db->prepare("SELECT * FROM products WHERE description LIKE '%$searchKey%' ORDER BY id DESC");
+    $stmt->execute();
+    $rawResult = $stmt->fetchAll();
 
-//     $total_pages = ceil(count($rawResult) / $numOfrecs);
+    $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-//     $stmt = $db->prepare("SELECT * FROM articles WHERE title LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
-//     $stmt->execute();
-//     $result = $stmt->fetchAll();
-// }
+    $stmt = $db->prepare("SELECT * FROM products WHERE description LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+}
 
 
 
@@ -71,7 +71,7 @@ if ($_SESSION['role'] != 1) {
     <link rel="stylesheet" href="css/style.css">
     <script src="../js/bootstrap.bundle.min.js" defer></script>
 
-    <title>Blog</title>
+    <title>Ecommerce</title>
 
 </head>
 
@@ -79,7 +79,7 @@ if ($_SESSION['role'] != 1) {
     <div class="container-fluid p-5">
         <div class="row bg-primary p-3 text-white">
             <div class="d-flex justify-content-between">
-                <h4>Kwon blogs</h4>
+                <h4>Ecommerce</h4>
                 <div>
                     <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
                 </div>
@@ -91,11 +91,15 @@ if ($_SESSION['role'] != 1) {
                     <a href="dashboard.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
-                    <a href="user_list.php" class="list-group-item">
-                        <span>Categories</span>
-                    </a>
                     <a href="index.php" class="list-group-item">
                         <span>Products</span>
+                    </a>
+                    <a href="category.php" class="list-group-item">
+                        <span>Categories</span>
+                    </a>
+                   
+                    <a href="user_list.php" class="list-group-item">
+                        <span>Users</span>
                     </a>
                 </div>
             </nav>
@@ -103,12 +107,12 @@ if ($_SESSION['role'] != 1) {
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
-                            <h4 class="me-2">Blogs</h4>
-                            <a href="add.php" type="button" class="btn bg-white">Create new Blog</a>
+                            <h4 class="me-2">Products</h4>
+                            <a href="product_add.php" type="button" class="btn btn-success">Create New Product</a>
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex " action="index.php" method="post">
-                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+                                <input name="_token" type="hidden" value="">
                                 <input class="form-control mr-sm-2 me-2" type="search" name="search">
                                 <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
                             </form>
@@ -118,45 +122,57 @@ if ($_SESSION['role'] != 1) {
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">Title</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">Description</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Photo</th>
+                                <th scope="col">In Stock</th>
+                                <th scope="col">Price</th>
                                 <th>Actions</th>
                                 <th scope="col">Created_at</th>
                             </tr>
                         </thead>
-                        <?php
+                        <tbody>
+                            <?php
+                            if ($result) {
+                                $i = 1;
+                                foreach ($result as $value) { ?>
 
-                        if ($result) {
-                            $i = 1;
-                            foreach ($result as $value) { ?>
-
-                                <tbody>
+                                    <?php
+                                    $catStmt = $db->prepare("SELECT * FROM categories WHERE id=" . $value['category_id']);
+                                    $catStmt->execute();
+                                    $catResult = $catStmt->fetchAll();
+                                    ?>
                                     <tr>
-                                        <td><?php echo $i ?></td>
-                                        <td><?php echo encap($value['title']) ?></td>
-                                        <td><?php echo encap(substr($value['description'], 0, 10)) ?></td>
+                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo encap($value['name']) ?></td>
+                                        <td><?php echo encap(substr($value['description'], 0, 30)) ?></td>
+                                        <td><?php echo encap($catResult[0]['name']) ?></td>
                                         <td>
-                                            <img class="img-fluid pad" src="images/<?php echo $value['photo'] ?>" style="height: 150px !important;">
+                                            <img class="img-fluid pad" src="images/<?php echo $value['image'] ?>" style="height: 150px !important;">
                                         </td>
+                                        <td><?php echo encap($value['quantity']) ?></td>
+                                        <td><?php echo encap($value['price']) ?></td>
                                         <td>
-                                            <div>
-                                                <a href="edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
-                                                <a href="delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
+                                            <div class="btn-group">
+                                                <div class="container">
+                                                    <a href="product_edit.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-warning">Edit</a>
+                                                </div>
+                                                <div class="container">
+                                                    <a href="product_delete.php?id=<?php echo $value['id'] ?>"
+                                                        onclick="return confirm('Are you sure you want to delete this item')"
+                                                        type="button" class="btn btn-danger">Delete</a>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td><?php echo $value['created_at'] ?></td>
+                                        <td><?php echo encap($value['created_at']) ?></td>
                                     </tr>
-                                </tbody>
-
-                        <?php
-
-                                $i++;
+                            <?php
+                                    $i++;
+                                }
                             }
-                        }
-
-
-                        ?>
+                            ?>
+                        </tbody>
                     </table>
                     <div class="d-flex align-items-center justify-content-center">
                         <nav aria-label="Page navigation example" style="float:right">

@@ -4,71 +4,67 @@ session_start();
 require('Database/MySQL.php');
 require('Database/encap.php');
 
-if (empty($_SESSION['userid']) || empty($_SESSION['login']) || $_SESSION['role'] != 1) {
-    header("Locatio: /admin/login.php");
-}
-
-if ($_POST) {
-    if (empty($_POST['name']) || empty($_POST['email']) || empty($_POST['phone']) || empty($_POST['address']) || empty($_POST['password']) || strlen($_POST['password'] < 4)) {
-        if (empty($_POST['name'])) {
-            $nameError = 'Name cannot be null';
+if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
+    header('Location: /admin/login.php');
+  }
+  if ($_SESSION['role'] != 1) {
+    header('Location: /admin/login.php');
+  }
+  
+  if ($_POST) {
+    if (empty($_POST['name']) || empty($_POST['email'])|| empty($_POST['phone']) || empty($_POST['address'])) {
+      if (empty($_POST['name'])) {
+        $nameError = 'Name cannot be null';
+      }
+      if (empty($_POST['phone'])) {
+        $phoneError = 'Phone is required';
+      }
+      if (empty($_POST['address'])) {
+        $addressError = 'Address is required';
+      }
+      if (empty($_POST['email'])) {
+        $emailError = 'Email cannot be null';
+      }
+    }elseif (!empty($_POST['password']) && strlen($_POST['password']) < 4) {
+      $passwordError = 'Password should be 4 characters at least';
+    }else{
+      $id = $_POST['id'];
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      $phone = $_POST['phone'];
+      $address = $_POST['address'];
+      $password = password_hash($_POST['password'],PASSWORD_DEFAULT);
+  
+      if (empty($_POST['role'])) {
+        $role = 0;
+      }else{
+        $role = 1;
+      }
+  
+      $stmt = $db->prepare("SELECT * FROM users WHERE email=:email AND id!=:id");
+      $stmt->execute(array(':email'=>$email,':id'=>$id));
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+      if ($user) {
+        echo "<script>alert('Email duplicated')</script>";
+      }else{
+        if ($password != null) {
+          $stmt = $db->prepare("UPDATE users SET name='$name',email='$email',password='$password',phone='$phone',address='$address',role='$role' WHERE id='$id'");
+        }else{
+          $stmt = $db->prepare("UPDATE users SET name='$name',email='$email',phone='$phone',address='$address',role='$role' WHERE id='$id'");
         }
-        if (empty($_POST['email'])) {
-            $emailError = 'Email cannot be null';
+        $result = $stmt->execute();
+        if ($result) {
+          echo "<script>alert('Successfully Updated');window.location.href='user_list.php';</script>";
         }
-        if (empty($_POST['phone'])) {
-            $phoneError = 'Phone cannot be null';
-        }
-        if (empty($_POST['address'])) {
-            $addressError = 'Address cannot be null';
-        }
-        if (empty($_POST['password'])) {
-            $passswordError = 'Password cannot be null';
-        }
-        if (strlen($_POST['password']) < 4) {
-            $passswordError = 'Password should be 4 characters at least';
-        }
-    } else {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $phone = $_POST['phone'];
-        $address = $_POST['address'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-        if (empty($_POST['role'])) {
-            $role = 0;
-        } else {
-            $role = 1;
-        }
-
-
-        $stmt = $db->prepare("SELECT * FROM users WHERE email=:email");
-        $stmt->bindValue(":email", $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user) {
-
-            echo "<script>alert('Email duplicated')</script>";
-        } else {
-
-            $stmt = $db->prepare("INSERT INTO users(name,email,phone,address,password,role) VALUES (:name,:email,:phone,:address,:password,:role)");
-
-            $result = $stmt->execute([
-                ':name' => $name,
-                ':email' => $email,
-                ':phone' => $phone,
-                ':address' => $address,
-                ':password' => $password,
-                ':role' => $role
-            ]);
-
-            if ($result) {
-                echo "<script>alert('Successfully added');window.location.href='user_list.php'</script>";
-            }
-        }
+      }
     }
-}
+  }
+  
+  $stmt = $db->prepare("SELECT * FROM users WHERE id=".$_GET['id']);
+  $stmt->execute();
+  
+  $result = $stmt->fetchAll();
 
 ?>
 
@@ -112,42 +108,35 @@ if ($_POST) {
                 <div class="row p-3">
                     <div class="card shadow-sm">
                         <div class="card-body">
-                            <form action='user_add.php' method='post'>
+                            <form action='' method='post'>
                                 <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                                <input type="hidden" name="id" value="<?= encap($result[0]['id'])?>">
                                 <div>
-                                    <h4>Create New User</h4>
+                                    <h4>Edit user</h4>
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Name</label>
                                     <p style="color:red"><?php echo empty($nameError) ? "" : "*" . $nameError ?></p>
-                                    <input type="text" class="form-control" name='name'>
+                                    <input type="text" class="form-control" name='name' value="<?= $result[0]['name']?>">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Email</label>
                                     <p style="color:red"><?php echo empty($emailError) ? "" : "*" . $emailError ?></p>
-                                    <input type="email" name="email" class="form-control">
+                                    <input type="email" name="email" class="form-control" value="<?=$result[0]['email']?>">
                                 </div>
                                 <div class="form-group mb-3">
                                     <label>Phone</label>
                                     <p style="color:red"><?php echo empty($phoneError) ? "" : "*" . $phoneError ?></p>
-                                    <input type="text" name="phone" class="form-control">
+                                    <input type="text" name="phone" class="form-control" value="<?=$result[0]['phone']?>">
                                 </div>
+                                
+                                
                                 <div class="form-group mb-3">
-                                    <label>Address</label>
-                                    <p style="color:red"><?php echo empty($addressError) ? "" : "*" . $addressError ?></p>
-                                    <input type="text" name="address" class="form-control">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label>Password</label>
-                                    <p style="color:red"><?php echo empty($passswordError) ? "" : "*" . $passswordError ?></p>
-                                    <input type="password" name="password" class="form-control">
-                                </div>
-                                <div class="form-group mb-3">
-                                    <input type="checkbox" name="role" value="1">
-                                    <label for="vehicle3"> Admin</label>
+                                    <input type="checkbox" name="role" value="<?php echo $result[0]['role'] == 1 ? 'checked':''?>">
+                                    <label for="vehicle3"></label>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                                 <a href="user_list.php" type='button' class='btn btn-default'>Back</a>
                             </form>
                         </div>

@@ -97,6 +97,9 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <a href="index.php" class="list-group-item">
                         <span>Products</span>
                     </a>
+                    <a href="index.php" class="list-group-item">
+                        <span>Users</span>
+                    </a>
                 </div>
             </nav>
             <main class="col-10 bg-light p-3">
@@ -104,7 +107,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
                             <h4 class="me-2">Ecommerce</h4>
-                            <a href="cat_add.php" type="button" class="btn bg-white">Create new category</a>
+                            <a href="cat_add.php" type="button" class="btn btn-success">Create new category</a>
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex" action="category.php" method="post">
