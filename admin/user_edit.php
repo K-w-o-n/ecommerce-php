@@ -109,7 +109,7 @@ if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <form action='' method='post'>
-                                <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                                 <input type="hidden" name="id" value="<?= encap($result[0]['id'])?>">
                                 <div>
                                     <h4>Edit user</h4>

@@ -115,38 +115,38 @@ if ($_POST) {
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <form action='user_add.php' method='post'>
-                                <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                                 <div>
                                     <h4>Create New User</h4>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Name</label>
+                                    <label><b>Name</b></label>
                                     <p style="color:red"><?php echo empty($nameError) ? "" : "*" . $nameError ?></p>
                                     <input type="text" class="form-control" name='name'>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Email</label>
+                                    <label><b>Email</b></label>
                                     <p style="color:red"><?php echo empty($emailError) ? "" : "*" . $emailError ?></p>
                                     <input type="email" name="email" class="form-control">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Phone</label>
+                                    <label><b>Phone</b></label>
                                     <p style="color:red"><?php echo empty($phoneError) ? "" : "*" . $phoneError ?></p>
                                     <input type="text" name="phone" class="form-control">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Address</label>
+                                    <label><b>Address</b></label>
                                     <p style="color:red"><?php echo empty($addressError) ? "" : "*" . $addressError ?></p>
                                     <input type="text" name="address" class="form-control">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Password</label>
+                                    <label><b>Password</b></label>
                                     <p style="color:red"><?php echo empty($passswordError) ? "" : "*" . $passswordError ?></p>
                                     <input type="password" name="password" class="form-control">
                                 </div>
                                 <div class="form-group mb-3">
                                     <input type="checkbox" name="role" value="1">
-                                    <label for="vehicle3"> Admin</label>
+                                    <label for="vehicle3"> <b>Admin</b></label>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary">Submit</button>

@@ -167,7 +167,7 @@ $result = $stmt->fetchAll();
                                     <h4>Create New Product</h4>
                                 </div>
                                 <input type="hidden" name="id" value="<?= $result[0]['id'] ?>">
-                                <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                                 <div class="form-group mb-3">
                                     <label for="">Name</label>
                                     <p style="color:red"><?php echo empty($nameError) ? '' : '*' . $nameError; ?></p>

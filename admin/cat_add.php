@@ -5,11 +5,11 @@ require('Database/MySQL.php');
 require('Database/encap.php');
 
 if(empty($_SESSION['userid']) && empty($_SESSION['login'])) {
-    header('Location: /admin/login.php');
+    header('Location: login.php');
 }
 
 if($_SESSION['role'] != 1) {
-    header('Location: /admin/login.php');
+    header('Location: login.php');
 }
 
 if($_POST) {
@@ -89,14 +89,14 @@ if($_POST) {
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <form action='cat_add.php' method='post' >
-                            <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                            <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                                 <div><h4>Create New Category</h4></div>
                                 <div class="form-group mb-3">
-                                    <label>Name</label>
+                                    <label><b>Name</b></label>
                                     <input type="text" class="form-control" name='name'>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label>Description</label>
+                                    <label><b>Description</b></label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name='description'></textarea>
                                 </div>
                                 

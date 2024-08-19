@@ -5,9 +5,12 @@ require('Database/MySQL.php');
 require('Database/encap.php');
 
 
-// if (empty($_SESSION['userid']) || empty($_SESSION['login']) || $_SESSION['role'] != 1) {
-//     header('location: login.php');
-// }
+
+
+if (empty($_SESSION['userid']) || $_SESSION['role'] != 1) {
+    header('location: login.php');
+}
+
 
 if ($_POST) {
     if (
@@ -114,7 +117,7 @@ if ($_POST) {
                     <a href="user_list.php" class="list-group-item">
                         <span>Products</span>
                     </a>
-                    <a href="index.php" class="list-group-item">
+                    <a href="category.php" class="list-group-item">
                         <span>Category</span>
                     </a>
                     <a href="user_list.php" class="list-group-item">
@@ -131,14 +134,14 @@ if ($_POST) {
                                 <div>
                                     <h4>Create New Product</h4>
                                 </div>
-                                <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                                <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                                 <div class="form-group mb-3">
-                                    <label for="">Name</label>
+                                    <label for=""><b>Name</b></label>
                                     <p style="color:red"><?php echo empty($nameError) ? '' : '*' . $nameError; ?></p>
                                     <input type="text" class="form-control" name="name" value="">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="">Description</label>
+                                    <label for=""><b>Description</b></label>
                                     <p style="color:red"><?php echo empty($descError) ? '' : '*' . $descError; ?></p>
                                     <textarea class="form-control" name="description" rows="8" cols="80"></textarea>
                                 </div>
@@ -148,7 +151,7 @@ if ($_POST) {
                                     $catStmt->execute();
                                     $catResult = $catStmt->fetchAll();
                                     ?>
-                                    <label for="">Category</label>
+                                    <label for=""><b>Category</b></label>
                                     <p style="color:red"><?php echo empty($catError) ? '' : '*' . $catError; ?></p>
                                     <select class="form-select" class="" name="category">
                                         <option value="">SELECT CATEGORY</option>
@@ -158,23 +161,23 @@ if ($_POST) {
                                     </select>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="">Quantity</label>
+                                    <label for=""><b>Quantity</b></label>
                                     <p style="color:red"><?php echo empty($qtyError) ? '' : '*' . $qtyError; ?></p>
                                     <input type="number" class="form-control" name="quantity" value="">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="">Price</label>
+                                    <label for=""><b>Price</b></label>
                                     <p style="color:red"><?php echo empty($priceError) ? '' : '*' . $priceError; ?></p>
                                     <input type="number" class="form-control" name="price" value="">
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label for="">Image</label>
+                                    <label for=""><b>Image</b></label>
                                     <p style="color:red"><?php echo empty($imageError) ? '' : '*' . $imageError; ?></p>
                                     <input type="file" name="image" value="">
                                 </div>
                                 <div class="form-group">
                                     <input type="submit" class="btn btn-success" name="" value="SUBMIT">
-                                    <a href="index.php" class="btn btn-warning">Back</a>
+                                    <a href="index.php" class="btn btn-default">Back</a>
                                 </div>
                             </form>
                         </div>

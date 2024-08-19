@@ -1,7 +1,7 @@
 <?php
 session_start();
 require('Database/MySQL.php');
-// require('Database/encap.php');
+require('Database/encap.php');
 
 if ($_POST) {
 
@@ -19,8 +19,8 @@ if ($_POST) {
     if ($user) {
         if ($user['password'] == $password) {
             $_SESSION['userid'] = $user['id'];
-            $SESSION['name'] = $user['name'];
-            $SESSION['login'] = time();
+            $_SESSION['name'] = $user['name'];
+            $_SESSION['login'] = time();
             $_SESSION['role'] = 1;
 
             header("location: index.php");
@@ -52,7 +52,7 @@ if ($_POST) {
             <div class="col-12 col-md-6 p-5 shadow-lg rounded">
                 <h3 class='text-center mt-3 text-dark mb-5'>Admin | <span class="text-muted h-5">Login</span></h3>
                 <form action="login.php" method='post'>
-                    <!-- <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>"> -->
+                    <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                     <div class='mb-3'>
                         <label for="">Email</label>
                         <input type="text" name="email" class='form-control'>

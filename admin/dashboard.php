@@ -2,13 +2,11 @@
 session_start();
 require('Database/MySQL.php');
 
-if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
-    header('location: index.php');
+if (empty($_SESSION['userid']) && empty($_SESSION['login']) && $_SESSION['role'] != 1) {
+    header('location: login.php');
 }
 
-if ($_SESSION['role'] != 1) {
-    header("Location: login.php");
-}
+
 
 
 $stmt = $db->prepare("SELECT *  FROM users");
@@ -66,7 +64,7 @@ $categoriesCount = count($categories);
                     <a href="index.php" class="list-group-item">
                         <span>Products</span>
                     </a>
-                    <a href="index.php" class="list-group-item">
+                    <a href="category.php" class="list-group-item">
                         <span>Categories</span>
                     </a>
                 </div>
@@ -75,15 +73,9 @@ $categoriesCount = count($categories);
                 <div class="container-fluid" style="height: 600px;">
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
-                            <h4 class="me-2">Blogs</h4>
-                            <a href="add.php" type="button" class="btn bg-white">Create new Blog</a>
+                            <h4 class="me-2">Ecommerce</h4>
                         </div>
-                        <div class="d-none d-lg-block">
-                            <form class="form-inline my-lg-0 d-flex " action="">
-                                <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
-                            </form>
-                        </div>
+                        
                     </div>
 
                     <div class="row flex-column flex-lg-row p-3">

@@ -97,7 +97,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <a href="index.php" class="list-group-item">
                         <span>Products</span>
                     </a>
-                    <a href="index.php" class="list-group-item">
+                    <a href="user_list.php" class="list-group-item">
                         <span>Users</span>
                     </a>
                 </div>
@@ -111,7 +111,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex" action="category.php" method="post">
-                                <input name="_token" type="hidden" value="">
+                                <input name="_token" type="hidden" value="<?= $_SESSION['_token']?>">
                                 <input class="form-control mr-sm-2 me-2" type="search" name="search">
                                 <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
                             </form>
