@@ -100,6 +100,9 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <a href="user_list.php" class="list-group-item">
                         <span>Users</span>
                     </a>
+                    <a href="order_list.php" class="list-group-item">
+                        <span>Orders</span>
+                    </a>
                 </div>
             </nav>
             <main class="col-10 bg-light p-3">

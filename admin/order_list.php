@@ -17,11 +17,9 @@ if (!empty($_POST['search'])) {
 } else {
     if (empty($_GET['pageno'])) {
         unset($_COOKIE['search']);
-        unset($_POST['search']);
-        setcookie('search', null, -1, '/');
+        setcookie('search', null, '-1', '/');
     }
 }
-
 
 if (!empty($_GET['pageno'])) {
     $pageno = $_GET['pageno'];
@@ -32,39 +30,17 @@ if (!empty($_GET['pageno'])) {
 $numOfrecs = 3;
 $offset = ($pageno - 1) * $numOfrecs;
 
+$stmt = $db->prepare("SELECT * FROM sales_orders ORDER BY id DESC");
+$stmt->execute();
+$rawResult = $stmt->fetchAll();
+
+$total_pages = ceil(count($rawResult) / $numOfrecs);
+
+$stmt = $db->prepare("SELECT * FROM sales_orders ORDER BY id DESC LIMIT $offset,$numOfrecs");
+$stmt->execute();
+$result = $stmt->fetchAll();
 
 
-
-if (empty($_POST['search']) && empty($_COOKIE['search'])) {
-
-    $stmt = $db->prepare("SELECT * FROM users ORDER BY id DESC");
-    $stmt->execute();
-    $rawResult = $stmt->fetchAll();
-
-    $total_pages = ceil(count($rawResult) / $numOfrecs);
-    // echo $total_pages;die();
-
-    $stmt = $db->prepare("SELECT * FROM users ORDER BY id DESC LIMIT $offset,$numOfrecs");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-} else {
-
-    if (!empty($_POST['search'])) {
-        $searchKey = $_POST['search'];
-    } else {
-        $searchKey = $_COOKIE['search'];
-    }
-    // echo $_COOKIE['search'];exit();
-    $stmt = $db->prepare("SELECT * FROM users WHERE email LIKE '%$searchKey%' ORDER BY id DESC");
-    $stmt->execute();
-    $rawResult = $stmt->fetchAll();
-
-    $total_pages = ceil(count($rawResult) / $numOfrecs);
-
-    $stmt = $db->prepare("SELECT * FROM users WHERE email LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-}
 
 
 
@@ -77,9 +53,9 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/bootstrap.bundle.min.js" defer></script>
+    <script src="../js/bootstrap.bundle.min.js" defer></script>
+    <title>Ecommerce</title>
 
-    <title>Blog</title>
 
 </head>
 
@@ -99,14 +75,14 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <a href="dashboard.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
-                    <a href="user_list.php" class="list-group-item">
-                        <span>Users</span>
+                    <a href="category.php" class="list-group-item">
+                        <span>Categories</span>
                     </a>
                     <a href="index.php" class="list-group-item">
                         <span>Products</span>
                     </a>
-                    <a href="category.php" class="list-group-item">
-                        <span>Categories</span>
+                    <a href="user_list.php" class="list-group-item">
+                        <span>Users</span>
                     </a>
                     <a href="order_list.php" class="list-group-item">
                         <span>Orders</span>
@@ -117,29 +93,18 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
                         <div class="d-flex">
-                            <h4 class="me-2">Users</h4>
-                            <a href="user_add.php" type="button" class="btn btn-success">Create new user</a>
+                            <h4 class="me-2">Ecommerce- <span class="text-white-50">orders</span></h4>
                         </div>
-                        <div class="d-none d-lg-block">
-                            <form class="form-inline my-lg-0 d-flex " action="user_list.php" method="post">
-                                <input name="_token" type="hidden" value="<?= $_SESSION['_token']?>">
-                                <input class="form-control mr-sm-2 me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                                <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
-                            </form>
-                        </div>
+
                     </div>
                     <table class="table table-striped table-bordered rounded-3 overflow-hidden">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Role</th>
+                                <th scope="col">name</th>
+                                <th scope="col">Price</th>
                                 <th>Actions</th>
-
+                                <th scope="col">Created_at</th>
                             </tr>
                         </thead>
                         <?php
@@ -147,25 +112,23 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                         if ($result) {
                             $i = 1;
                             foreach ($result as $value) { ?>
-
+                            
+                                <?php
+                                
+                                $userStmt = $db->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
+                                $userStmt->execute();
+                                $userResult = $userStmt->fetchAll();
+                                
+                                ?>
                                 <tbody>
                                     <tr>
                                         <td><?php echo $i ?></td>
-                                        <td><?php echo $value['name'] ?></td>
-                                        <td><?php echo $value['email'] ?></td>
-                                        <td><?php echo $value['phone'] ?></td>
-                                        <td><?php echo $value['address'] ?></td>
+                                        <td><?php echo encap($userResult[0]['name']) ?></td>
+                                        <td><?php echo encap($value['total_price']) ?></td>
                                         <td>
-                                            <?php echo $value['password'] ?>
+                                            <a href="order_detail.php?id=<?php echo $value['id'] ?>" class="btn btn-outline-primary" type='button'>view</a>
                                         </td>
-                                        <td><?php echo $value['role'] ?></td>
-                                        <td>
-                                            <div>
-                                                <a href="user_edit.php?id=<?php echo $value['id'] ?>" class="btn btn-success" type='button'>Edit</a>
-                                                <a href="user_delete.php?id=<?php echo $value['id'] ?>" class="btn btn-warning" type='button'>Delete</a>
-                                            </div>
-                                        </td>
-
+                                        <td><?php echo encap(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                                     </tr>
                                 </tbody>
 
@@ -205,6 +168,8 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                             </ul>
                         </nav>
                     </div>
+
+
                 </div>
 
 
