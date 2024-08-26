@@ -8,7 +8,7 @@ if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
     header('Location: /admin/login.php');
   }
   if ($_SESSION['role'] != 1) {
-    header('Location: /admin/login.php');
+    header('Location: login.php');
   }
   
   if ($_POST) {

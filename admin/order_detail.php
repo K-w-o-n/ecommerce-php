@@ -4,7 +4,7 @@ require('Database/MySQL.php');
 require('Database/encap.php');
 
 if (empty($_SESSION['userid']) && empty($_SESSION['login'])) {
-    header('location: index.php');
+    header('location: login.php');
 }
 
 if ($_SESSION['role'] != 1) {
@@ -27,21 +27,20 @@ if (!empty($_GET['pageno'])) {
     $pageno = 1;
 }
 
-$numOfrecs = 3;
+$numOfrecs = 2;
 $offset = ($pageno - 1) * $numOfrecs;
 
-$stmt = $db->prepare("SELECT * FROM sales_orders ORDER BY id DESC");
+$stmt = $db->prepare("SELECT * FROM sale_order_detail WHERE order_id=".$_GET['id']);
 $stmt->execute();
 $rawResult = $stmt->fetchAll();
 
 $total_pages = ceil(count($rawResult) / $numOfrecs);
 
-$stmt = $db->prepare("SELECT * FROM sales_orders ORDER BY id DESC LIMIT $offset,$numOfrecs");
+$stmt = $db->prepare("SELECT * FROM sale_order_detail WHERE order_id=".$_GET['id']);
 $stmt->execute();
 $result = $stmt->fetchAll();
 
-
-
+ //."LMIT $offset,$numOfrecs"
 
 
 
@@ -93,19 +92,20 @@ $result = $stmt->fetchAll();
             <main class="col-10 bg-light p-3">
                 <div class="container-fluid">
                     <div class="d-flex justify-content-between bg-primary text-white p-2">
-                        <div class="d-flex">
-                            <h4 class="me-2">Ecommerce- <span class="text-white-50">orders</span></h4>
+                        <div class="d-flex justify-content-between">
+                            <h4 class="me-2">Ecommerce- <span class="text-white-50">order-detail</span></h4>
+                           
                         </div>
-
+                        <a href="order_list.php" class="btn btn-success">Back</a>
                     </div>
                     <table class="table table-striped table-bordered rounded-3 overflow-hidden">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">id</th>
-                                <th scope="col">name</th>
-                                <th scope="col">Price</th>
-                                <th>Actions</th>
-                                <th scope="col">Created_at</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Quantity</th>
+                               
+                                <th scope="col">Order_date</th>
                             </tr>
                         </thead>
                         <?php
@@ -116,20 +116,16 @@ $result = $stmt->fetchAll();
                             
                                 <?php
                                 
-                                $userStmt = $db->prepare("SELECT * FROM users WHERE id=".$value['user_id']);
-                                $userStmt->execute();
-                                $userResult = $userStmt->fetchAll();
-                               
+                                $productStmt = $db->prepare("SELECT * FROM products WHERE id=".$value['product_id']);
+                                $productStmt->execute();
+                                $productResult = $productStmt->fetchAll();
+                                
                                 ?>
-                               
                                 <tbody>
                                     <tr>
                                         <td><?php echo $i ?></td>
-                                        <td><?php echo encap($userResult[0]['name']) ?></td>
-                                        <td><?php echo encap($value['total_price']) ?></td>
-                                        <td>
-                                            <a href="order_detail.php?id=<?php echo $value['id'] ?>" class="btn btn-outline-primary" type='button'>view</a>
-                                        </td>
+                                        <td><?php echo encap($productResult[0]['name']) ?></td>
+                                        <td><?php echo encap($value['quantity']) ?></td>
                                         <td><?php echo encap(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                                     </tr>
                                 </tbody>

@@ -84,7 +84,7 @@ if ($_POST) {
     <link rel="stylesheet" href="css/style.css">
     <script src="js/bootstrap.bundle.min.js" defer></script>
 
-    <title>user</title>
+    <title>User</title>
 
 </head>
 
