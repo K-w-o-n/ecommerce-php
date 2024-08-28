@@ -45,7 +45,7 @@ require('Database/encap.php');
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><h4>Ecommerce<h4></a>
+					<a class="navbar-brand logo_h" href="index.php"><h4>Ecommerce<h4></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -82,8 +82,8 @@ require('Database/encap.php');
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Welcome</h1>
-
+					<h1>Welcome To Our Shop</h1>
+					<p>Fashion & IT Products are available</p><span>Buy Now!</span>
 				</div>
 			</div>
 		</div>

@@ -119,12 +119,11 @@ $result = $stmt->fetchAll();
                                 $productStmt = $db->prepare("SELECT * FROM products WHERE id=".$value['product_id']);
                                 $productStmt->execute();
                                 $productResult = $productStmt->fetchAll();
-                                
                                 ?>
                                 <tbody>
                                     <tr>
                                         <td><?php echo $i ?></td>
-                                        <td><?php echo encap($productResult[0]['name']) ?></td>
+                                        <td><?php echo encap($productResult['name']) ?></td>
                                         <td><?php echo encap($value['quantity']) ?></td>
                                         <td><?php echo encap(date('Y-m-d',strtotime($value['order_date']))) ?></td>
                                     </tr>

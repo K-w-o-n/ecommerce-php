@@ -111,7 +111,7 @@ $result = $stmt->fetchAll();
                         <?php
 
                         if ($result) {
-                            $i = 1;
+                            //$i = 1;
                             foreach ($result as $value) { ?>
                             
                                 <?php
@@ -124,7 +124,7 @@ $result = $stmt->fetchAll();
                                
                                 <tbody>
                                     <tr>
-                                        <td><?php echo $i ?></td>
+                                        <td><?= $value['id'] ?></td>
                                         <td><?php echo encap($userResult[0]['name']) ?></td>
                                         <td><?php echo encap($value['total_price']) ?></td>
                                         <td>
@@ -136,7 +136,7 @@ $result = $stmt->fetchAll();
 
                         <?php
 
-                                $i++;
+                                //$i++;
                             }
                         }
 

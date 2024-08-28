@@ -49,7 +49,7 @@ if ($_POST) {
 <body>
     <div class="wrap">
         <div class="container d-flex justify-content-center m-auto">
-            <div class="col-12 col-md-6 p-5 shadow-lg rounded">
+            <div class="col-12 col-md-6 p-5 shadow-lg rounded" style="height:auto;width:500px">
                 <h3 class='text-center mt-3 text-dark mb-5'>Admin | <span class="text-muted h-5">Login</span></h3>
                 <form action="login.php" method='post'>
                     <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
@@ -63,7 +63,7 @@ if ($_POST) {
                     </div>
                     <button class='btn btn-primary w-100 fs'>Log in</button>
                 </form>
-                <p class='text-center text-muted mt-3'>If u don't have account register <a href="register.php">here!</a></p>
+                <p class='text-center text-muted mt-3'>If u don't have account register <a href="../register.php">here!</a></p>
             </div>
         </div>
     </div>

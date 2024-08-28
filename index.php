@@ -1,3 +1,18 @@
+<?php 
+
+if (!empty($_POST['search'])) {
+  setcookie('search',$_POST['search'], time() + (86400 * 30), "/");
+}else{
+  if (empty($_GET['pageno'])) {
+    unset($_COOKIE['search']); 
+    setcookie('search', null, -1, '/'); 
+  }
+}
+
+
+?>
+
+
 <?php include('header.php') ?>
 
 <?php
@@ -16,18 +31,32 @@
 
 	$numOfrecs = 6;
 	$offset = ($pageno - 1) * $numOfrecs;
+	
 
 	if (empty($_POST['search']) && empty($_COOKIE['search'])) {
+		if(!empty($_GET['category_id'])) {
+			$categoryId = $_GET['category_id'];
+			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId ORDER BY id DESC");
+			$stmt->execute();
+			$rawResult = $stmt->fetchAll();
 
-		$stmt = $db->prepare("SELECT * FROM products ORDER BY id DESC");
-		$stmt->execute();
-		$rawResult = $stmt->fetchAll();
+			$total_pages = ceil(count($rawResult) / $numOfrecs);
 
-		$total_pages = ceil(count($rawResult) / $numOfrecs);
+			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId ORDER BY id DESC LIMIT $offset,$numOfrecs");
+			$stmt->execute();
+			$result = $stmt->fetchAll();
+		} else {
+			$stmt = $db->prepare("SELECT * FROM products  ORDER BY id DESC");
+			$stmt->execute();
+			$rawResult = $stmt->fetchAll();
 
-		$stmt = $db->prepare("SELECT * FROM products ORDER BY id DESC LIMIT $offset,$numOfrecs");
-		$stmt->execute();
-		$result = $stmt->fetchAll();
+			$total_pages = ceil(count($rawResult) / $numOfrecs);
+
+			$stmt = $db->prepare("SELECT * FROM products  ORDER BY id DESC LIMIT $offset,$numOfrecs");
+			$stmt->execute();
+			$result = $stmt->fetchAll();
+		}
+		
 	} else {
 		if (!empty($_POST['search'])) {
 			$searchKey = $_POST['search'];
@@ -62,8 +91,8 @@
 								$catResult = $catStmt->fetchAll();
 							?>
 
-							<?php foreach($catResult as $key =>$value) { ?>
-								<a data-toggle="collapse"><spanclass="lnr lnr-arrow-right"></spanclass=><?= encap($value['name'])?></a>
+							<?php foreach($catResult as $key => $value) { ?>
+								<a href="index.php?category_id=<?=$value['id']?>"><spanclass="lnr lnr-arrow-right"></spanclass=><?= encap($value['name'])?></a>
 							<?php } ?>
 							
 						</li>
@@ -87,7 +116,7 @@
 		?>
 			<div class="col-lg-4 col-md-6">
 			<div class="single-product">
-				<img class="img-fluid" src="admin/images/<?= encap($value['image'])?>" alt="" width="300px" style="height: 230px;">
+				<a href="product_detail.php?id=<?= $value['id'] ?>"><img class="img-fluid" src="admin/images/<?= encap($value['image'])?>" alt="" width="300px" style="height: 280px; width:300px"></a>
 				<div class="product-details">
 					<h6><?= encap($value['name'])?></h6>
 					<div class="price">
@@ -100,7 +129,7 @@
 							<span class="ti-bag"></span>
 							<p class="hover-text">add to bag</p>
 						</a>
-						<a href="" class="social-info">
+						<a href="product_detail.php?id=<?= $value['id']?>" class="social-info">
 							<span class="lnr lnr-move"></span>
 							<p class="hover-text">view more</p>
 						</a>
@@ -131,9 +160,7 @@
 			<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 				Copyright &copy;<script>
 					document.write(new Date().getFullYear());
-				</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-				<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-			</p>
+				</script> All rights reserved |  August 2024 </p>
 		</div>
 	</div>
 </footer>
