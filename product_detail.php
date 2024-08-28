@@ -7,6 +7,8 @@ $stmt = $db->prepare("SELECT * FROM products WHERE id=".$_GET['id']);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// print_r($_SESSION['cart']);
+
 ?>
 <!--================Single Product Area =================-->
 <div class="product_image_area" style="padding-top:0px !important">
@@ -37,7 +39,7 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
             </div>
             <div class="card_area d-flex align-items-center">
-              <button class="primary-btn" href="#" style="border:1px">Add to Cart</button>
+              <button class="primary-btn"  style="border:1px">Add to Cart</button>
               <a class="primary-btn" href="index.php">Back</a>
             </div>
           </form>
