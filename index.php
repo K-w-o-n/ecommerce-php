@@ -36,23 +36,23 @@ if (!empty($_POST['search'])) {
 	if (empty($_POST['search']) && empty($_COOKIE['search'])) {
 		if(!empty($_GET['category_id'])) {
 			$categoryId = $_GET['category_id'];
-			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId ORDER BY id DESC");
+			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId AND quantity > 0 ORDER BY id DESC");
 			$stmt->execute();
 			$rawResult = $stmt->fetchAll();
 
 			$total_pages = ceil(count($rawResult) / $numOfrecs);
 
-			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId ORDER BY id DESC LIMIT $offset,$numOfrecs");
+			$stmt = $db->prepare("SELECT * FROM products WHERE category_id=$categoryId AND quantity > 0 ORDER BY id DESC LIMIT $offset,$numOfrecs");
 			$stmt->execute();
 			$result = $stmt->fetchAll();
 		} else {
-			$stmt = $db->prepare("SELECT * FROM products  ORDER BY id DESC");
+			$stmt = $db->prepare("SELECT * FROM products WHERE quantity > 0 ORDER BY id DESC");
 			$stmt->execute();
 			$rawResult = $stmt->fetchAll();
 
 			$total_pages = ceil(count($rawResult) / $numOfrecs);
 
-			$stmt = $db->prepare("SELECT * FROM products  ORDER BY id DESC LIMIT $offset,$numOfrecs");
+			$stmt = $db->prepare("SELECT * FROM products WHERE quantity > 0 ORDER BY id DESC LIMIT $offset,$numOfrecs");
 			$stmt->execute();
 			$result = $stmt->fetchAll();
 		}
@@ -63,13 +63,13 @@ if (!empty($_POST['search'])) {
 		} else {
 			$searchKey = $_COOKIE['search'];
 		}
-		$stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
+		$stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' AND quantity > 0  ORDER BY id DESC");
 		$stmt->execute();
 		$rawResult = $stmt->fetchAll();
 
 		$total_pages = ceil(count($rawResult) / $numOfrecs);
 
-		$stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%'ORDER BY id DESC LIMIT $offset,$numOfrecs");
+		$stmt = $db->prepare("SELECT * FROM products WHERE name LIKE '%$searchKey%' AND quantity > 0  ORDER BY id DESC LIMIT $offset,$numOfrecs");
 		$stmt->execute();
 		$result = $stmt->fetchAll();
 	}
@@ -124,15 +124,21 @@ if (!empty($_POST['search'])) {
 						<h6 class="l-through">$210.00</h6>
 					</div>
 					<div class="prd-bottom">
-
-						<a href="" class="social-info">
-							<span class="ti-bag"></span>
-							<p class="hover-text">add to bag</p>
-						</a>
+					<form action="addtocart.php" method="post">
+					<input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+					<input type="hidden" name="id" value="<?php echo encap($value['id'])?>">
+					<input type="hidden" name="qty" value="1">
+					<div class="social-info">
+						<button class="social-info" type="submit" style="display: contents;">
+							<span class="ti-bag"></span><p class="hover-text" style="left: 20px;">add to cart</p>
+						</button>
+					</div>
+						
 						<a href="product_detail.php?id=<?= $value['id']?>" class="social-info">
 							<span class="lnr lnr-move"></span>
 							<p class="hover-text">view more</p>
 						</a>
+					</form>
 					</div>
 				</div>
 			</div>
