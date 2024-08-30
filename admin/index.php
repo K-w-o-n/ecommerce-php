@@ -69,7 +69,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="../js/bootstrap.bundle.min.js" defer></script>
+
 
     <title>Ecommerce</title>
 
@@ -97,13 +97,14 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                     <a href="category.php" class="list-group-item">
                         <span>Categories</span>
                     </a>
-                   
+
                     <a href="user_list.php" class="list-group-item">
                         <span>Users</span>
                     </a>
                     <a href="order_list.php" class="list-group-item">
                         <span>Orders</span>
                     </a>
+                    
                 </div>
             </nav>
             <main class="col-10 bg-light p-3">
@@ -115,7 +116,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
                         </div>
                         <div class="d-none d-lg-block">
                             <form class="form-inline my-lg-0 d-flex " action="index.php" method="post">
-                                <input name="_token" type="hidden" value="<?= $_SESSION['_token']?>">
+                                <input name="_token" type="hidden" value="<?= $_SESSION['_token'] ?>">
                                 <input class="form-control mr-sm-2 me-2" type="search" name="search">
                                 <button class="btn btn-outline-success bg-success text-white  my-sm-0" type="submit">Search</button>
                             </form>
@@ -212,6 +213,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
         </div>
     </div>
 
+    <script src="../js/bootstrap.bundle.min.js" defer></script>
 </body>
 
 </html>

@@ -2,6 +2,10 @@
 session_start();
 require('Database/encap.php');
 
+if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+    header('Location: login.php');
+}
+
 ?>
 
 
@@ -92,9 +96,10 @@ require('Database/encap.php');
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Welcome To Our Shop</h1>
-					<p>Fashion & IT Products are available</p><span>Buy Now!</span>
+					<h1>Welcome To Our Shop <span class="text-uppercase text-success"><br><?= $_SESSION['username']?></span></h1>
+					<a href="logout.php" class="primary-btn" style="color: black;background: white;line-height: 30px;">logout</a>
 				</div>
+				
 			</div>
 		</div>
 	</section>

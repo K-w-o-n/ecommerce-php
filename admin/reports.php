@@ -82,37 +82,35 @@ $categoriesCount = count($categories);
                         <div class="col text-center">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3 class="card-title h2"><?= $userCount ?></h3>
-                                    <span class="text-success">
-
-                                        Users
-                                    </span>
+                                    <h3 class="card-title h2">Weely Reports</h3>
+                                    <a href="reports/weekly_report.php"> Weekly Reports</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col text-center">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3 class="card-title h2"><?= $productsCount ?></h3>
-                                    <span class="text-success">
-
-                                        Products
-                                    </span>
+                                    <h3 class="card-title h2">Monthy Reports</h3>
+                                    <a href="reports/monthly_report.php"> Monthy Reports</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col text-center">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3 class="card-title h2"><?= $categoriesCount ?></h3>
-                                    <span class="text-success">
-
-                                        Categories
-                                    </span>
+                                    <h3 class="card-title h2">Royal Users</h3>
+                                    <a href="reports/royal_users.php">Royal users</a>
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col text-center">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h3 class="card-title h2">Best Seller Items</h3>
+                                    <a href="reports/best_seller_item.php">Best Seller Item</a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
         </div>
