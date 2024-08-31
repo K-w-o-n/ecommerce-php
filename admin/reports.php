@@ -9,20 +9,20 @@ if (empty($_SESSION['userid']) && empty($_SESSION['login']) && $_SESSION['role']
 
 
 
-$stmt = $db->prepare("SELECT *  FROM users");
-$result = $stmt->execute();
-$users = $stmt->fetchAll();
-$userCount = count($users);
+// $stmt = $db->prepare("SELECT *  FROM users");
+// $result = $stmt->execute();
+// $users = $stmt->fetchAll();
+// $userCount = count($users);
 
-$stmtblog = $db->prepare("SELECT *  FROM products");
-$resultblog = $stmtblog->execute();
-$products = $stmtblog->fetchAll();
-$productsCount = count($products);
+// $stmtblog = $db->prepare("SELECT *  FROM products");
+// $resultblog = $stmtblog->execute();
+// $products = $stmtblog->fetchAll();
+// $productsCount = count($products);
 
-$stmtblog = $db->prepare("SELECT *  FROM categories");
-$resultblog = $stmtblog->execute();
-$categories = $stmtblog->fetchAll();
-$categoriesCount = count($categories);
+// $stmtblog = $db->prepare("SELECT *  FROM categories");
+// $resultblog = $stmtblog->execute();
+// $categories = $stmtblog->fetchAll();
+// $categoriesCount = count($categories);
 
 
 ?>
@@ -55,7 +55,7 @@ $categoriesCount = count($categories);
         <div class="row gap-0 ">
             <nav class="col-2 bg-light pe-3" style="background: #0083aa;padding:0px;">
                 <div class="list-group rounded-0 text-center text-lg-start">
-                    <a href="dashboard.php" class="list-group-item">
+                    <a href="reports.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
                     <a href="user_list.php" class="list-group-item">
@@ -82,16 +82,16 @@ $categoriesCount = count($categories);
                         <div class="col text-center">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3 class="card-title h2">Weely Reports</h3>
-                                    <a href="reports/weekly_report.php"> Weekly Reports</a>
+                                    <h3 class="card-title h2">Weely Report</h3>
+                                    <a href="reports/weekly_report.php" class="text-decoration-none badge bg-success"> Weekly Report</a>
                                 </div>
                             </div>
                         </div>
                         <div class="col text-center">
                             <div class="card mb-3">
                                 <div class="card-body">
-                                    <h3 class="card-title h2">Monthy Reports</h3>
-                                    <a href="reports/monthly_report.php"> Monthy Reports</a>
+                                    <h3 class="card-title h2">Monthy Report</h3>
+                                    <a href="reports/monthly_report.php" class="text-decoration-none badge bg-warning"> Monthy Report</a>
                                 </div>
                             </div>
                         </div>
@@ -99,7 +99,7 @@ $categoriesCount = count($categories);
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <h3 class="card-title h2">Royal Users</h3>
-                                    <a href="reports/royal_users.php">Royal users</a>
+                                    <a href="reports/royal_users.php" class="text-decoration-none badge bg-info">Royal users</a>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@ $categoriesCount = count($categories);
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <h3 class="card-title h2">Best Seller Items</h3>
-                                    <a href="reports/best_seller_item.php">Best Seller Item</a>
+                                    <a href="reports/best_seller_item.php" class="text-decoration-none badge bg-primary">Best Seller Item</a>
                                 </div>
                             </div>
                         </div>

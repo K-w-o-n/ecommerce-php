@@ -48,14 +48,14 @@ if (!empty($_POST['search'])) {
             <div class="d-flex justify-content-between">
                 <h4>Ecommerce</h4>
                 <div>
-                    <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
+                    <a href="../logout.php" type="button" class="btn btn-danger">Logout</a>
                 </div>
             </div>
         </div>
         <div class="row gap-0 ">
             <nav class="col-2 bg-light pe-3" style="background: #0083aa;padding:0px;">
                 <div class="list-group rounded-0 text-center text-lg-start">
-                    <a href="dashboard.php" class="list-group-item">
+                    <a href="../reports.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
                     <a href="index.php" class="list-group-item">
@@ -120,7 +120,7 @@ if (!empty($_POST['search'])) {
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo encap($userResult[0]['name']) ?></td>
                                         <td><?php echo encap($value['total_price']) ?></td>
-                                        <td><?php echo encap($value['order_date']) ?></td>
+                                        <td><?php echo encap(date("Y-m-d",strtotime($value['order_date']))) ?></td>
                                         
                                     </tr>
                             <?php

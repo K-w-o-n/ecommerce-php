@@ -88,7 +88,7 @@ if (empty($_POST['search']) && empty($_COOKIE['search'])) {
         <div class="row gap-0 ">
             <nav class="col-2 bg-light pe-3" style="background: #0083aa;padding:0px;">
                 <div class="list-group rounded-0 text-center text-lg-start">
-                    <a href="dashboard.php" class="list-group-item">
+                    <a href="reports.php" class="list-group-item">
                         <span>Dashboard</span>
                     </a>
                     <a href="category.php" class="list-group-item">
